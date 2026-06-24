@@ -6,4 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model {
     protected $guarded = [];
+
+    public function project() {
+        return $this->belongsTo( Project::class );
+    }
+
+    public function user() {
+        return $this->belongsTo( User::class, 'assigned_to', 'id' );
+    }
+
+    public function task_overdue() {
+        return $this->where( 'due_date', '<', now() )->where( 'status', '!=', 'done' );
+    }
 }
